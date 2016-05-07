@@ -4,7 +4,7 @@ import java.util.HashMap;
  * Created by Bruno on 5/7/2016.
  */
 public class ValidAnagram {
-    
+
         public boolean isAnagram(String s, String t) {
             if(s == null && t == null)  return true;
             if(s == null || t == null)  return false;
