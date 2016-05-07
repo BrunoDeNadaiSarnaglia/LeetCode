@@ -3,7 +3,7 @@
  */
 public class Trie {
 
-    private TrieNode root = null;
+    public TrieNode root = null;
 
     public Trie() {   }
 

@@ -38,7 +38,7 @@ public class TopKFrequent {
             }
             map.put(num, map.get(num) + 1);
         }
-        PriorityQueue<Pair<Integer, Integer>> pq = new PriorityQueue<Pair<Integer, Integer>>(new Comparator<Pair<Integer, Integer>>(){
+        PriorityQueue<Pair<Integer, Integer>> pq = new PriorityQueue<Pair<Integer, Integer>>( new Comparator<Pair<Integer, Integer>>(){
             @Override
             public int compare(Pair<Integer, Integer> o1, Pair<Integer, Integer> o2) {
                 return - o1.getSecond() + o2.getSecond();
@@ -47,6 +47,8 @@ public class TopKFrequent {
         for(Integer key : map.keySet()){
             pq.add(new Pair<Integer, Integer>(key, map.get(key)));
         }
+
+
         List<Integer> list = new ArrayList<Integer>();
         for(int i = 0; !pq.isEmpty() && i < k; i++){
             list.add(pq.poll().getFirst());
