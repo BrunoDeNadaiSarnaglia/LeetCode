@@ -5,6 +5,12 @@ import java.util.LinkedList;
  * Created by Bruno on 5/29/2016.
  */
 public class IntersectionOfTwoArrays2 {
+
+    public static void main(String[] args){
+        IntersectionOfTwoArrays2 asd = new IntersectionOfTwoArrays2();
+        System.out.println(asd.intersect(new int[]{1,2,2}, new int[]{1,2}));
+    }
+
     public int[] intersect(int[] nums1, int[] nums2) {
         if(nums1.length < nums2.length) return intersect(nums2, nums1);
         HashMap<Integer, Integer> mapOccurences = MapOccurences(nums2);
@@ -39,6 +45,7 @@ public class IntersectionOfTwoArrays2 {
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         for (Integer num : nums) {
             Integer occurences = map.containsKey(num)? map.get(num) : 0;
+            Integer adas = map.getOrDefault(num, 0);
             map.put(num, occurences + 1);
         }
         return map;
