@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * Created by Bruno on 5/31/2016.
@@ -19,77 +20,42 @@ public class SummaryRanges {
 
     HashSet<Integer> set;
 
-    Node root;
+    TreeMap<Integer, Interval> tree;
+
+    boolean updated = false;
+    List<Interval> list;
 
     /** Initialize your data structure here. */
     public SummaryRanges() {
         set = new HashSet<Integer>();
-        root = null;
+        tree = new TreeMap<Integer, Interval>();
     }
 
     public void addNum(int val) {
-        root = addNum(val, root);
-    }
-
-    private Node addNum(int val, Node node){
-        if(node == null) return new Node(new Interval(val, val));
-        if(node.interval.start <= val && val <= node.interval.end)  return node;
-        if(val == node.interval.start - 1){
-            node.interval.start = val;
-            if(node.left == null || node.left.interval.end + 1 != node.interval.start)   return node;
-            node.interval.start = node.left.interval.start;
-            node.left = deleteRoot(node.left);
-            return node;
-        }
-        if(val == node.interval.end + 1){
-            node.interval.end = val;
-            if(node.right == null || node.right.interval.start != node.interval.end + 1) return node;
-            node.interval.end = node.right.interval.end;
-            node.right = deleteRoot(node.right);
-            return node;
-        }
-        if(val < node.interval.start - 1) {
-            node.left = addNum(val, node.left);
+        if(tree.containsKey(val))   return;
+        Integer l = tree.lowerKey(val);
+        Integer h = tree.higherKey(val);
+        if(l != null && h != null && tree.get(l).end + 1 == val && val + 1 == h){
+            tree.get(l).end = tree.get(h).end;
+            tree.remove(h);
+            updated = true;
+        } else if(l != null && tree.get(l).end + 1 >= val){
+            tree.get(l).end = Math.max(tree.get(l).end, val);;
+        } else if(h != null && val + 1 == h){
+            tree.get(h).start = val;
+            tree.put(val, tree.get(h));
+            tree.remove(h);
         } else {
-            node.right = addNum(val, node.right);
+            tree.put(val, new Interval(val,val));
+            updated = true;
         }
-        return node;
-    }
-
-    private Node deleteRoot(Node node){
-        if(node == null) return null;
-        if(node.left == null) return node.right;
-        Node it = node.left;
-        while(it.right != null){
-            it = it.right;
-        }
-        it.right = node.right;
-        return node.left;
-    }
-
-    private void InOrder(Node node, List<Interval> list){
-        if(node == null) return;
-        InOrder(node.left, list);
-        list.add(node.interval);
-        InOrder(node.right, list);
     }
 
     public List<Interval> getIntervals() {
-        List<Interval> list = new ArrayList<Interval>();
-        InOrder(root, list);
+        if(!updated) return list;
+        list = new ArrayList<Interval>(tree.values());
+        updated = false;
         return list;
-    }
-
-    private class Node {
-        Interval interval;
-        Node left;
-        Node right;
-
-        public Node(Interval interval) {
-            this.interval = interval;
-            this.left = null;
-            this.right = null;
-        }
     }
 
     private class Interval {
