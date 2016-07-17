@@ -14,4 +14,8 @@ public class HigherToSmall {
         if(result == 1) return guessNumber(mid + 1, j);
         return guessNumber(i, mid - 1);
     }
+
+    public int guess(int num){
+        return 0;
+    }
 }
