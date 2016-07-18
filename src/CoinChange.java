@@ -4,6 +4,20 @@ import java.util.LinkedList;
  * Created by Bruno on 7/17/2016.
  */
 public class CoinChange {
+
+
+    public int coinChange(int[] coins, int amount) {
+        Integer[] numCoins = new Integer[amount + 1];
+        numCoins[0] = 0;
+        for (Integer coin: coins) {
+            for (int i = coin; i <= amount; i++) {
+                if(numCoins[i - coin] == null) continue;
+                numCoins[i] = Math.min(numCoins[i], numCoins[i - coin] + 1);
+            }
+        }
+        return numCoins[amount];
+    }
+
 //
 //    public static void main(String[] args){
 //        CoinChange cc = new CoinChange();
