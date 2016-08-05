@@ -1,10 +1,20 @@
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  * Created by Bruno on 8/3/2016.
  */
 public class RandomizedSet {
+
+    public static void main(String[] args){
+        RandomizedSet set = new RandomizedSet();
+        set.insert(1);
+        set.remove(2);
+        set.insert(2);
+        System.out.println(set.getRandom());
+        set.remove(1);
+        set.insert(2);
+        System.out.println(set.getRandom());
+    }
 
     private class ElasticArray {
 
@@ -12,7 +22,7 @@ public class RandomizedSet {
         int last;
 
         public ElasticArray() {
-            this.array = new int[0];
+            this.array = new int[1];
             this.last = 0;
         }
 
@@ -50,7 +60,7 @@ public class RandomizedSet {
 
     private ElasticArray elasticArray;
     private HashMap<Integer, Integer> mapToIdx;
-    private Random rand = new Random();
+    private java.util.Random rand = new java.util.Random();
 
     /** Initialize your data structure here. */
     public RandomizedSet() {
@@ -71,11 +81,12 @@ public class RandomizedSet {
     }
 
     /** Deletes a value from the set. Returns true if the set contained the specified element. */
-    public boolean delete(int val) {
+    public boolean remove(int val) {
         if(!contains(val)) return false;
         int idx = mapToIdx.get(val);
         int lastVal = this.elasticArray.get(this.elasticArray.length() - 1);
         this.elasticArray.update(idx, lastVal);
+        mapToIdx.put(lastVal, idx);
         this.elasticArray.deleteLast();
         mapToIdx.remove(val);
         return true;
