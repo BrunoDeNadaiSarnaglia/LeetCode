@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -6,42 +7,19 @@ import java.util.*;
 public class ReconstructQueue {
 
     public int[][] reconstructQueue(int[][] people) {
-        int[][] peopleClone = clone(people);
-        for (int i = 0; i < people.length; i++) {
-            int pivotIdx = i;
-            for (int j = i + 1; j < people.length; j++) {
-                int[] candidatePivot = people[j];
-                int[] pivot = people[pivotIdx];
-                if(candidatePivot[1] == 0 && (pivot[1] != 0 || candidatePivot[0] <= pivot[0])){
-                    pivotIdx = j;
-                }
+        Arrays.sort(people, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[0] == o2[0])
+                    return o1[1] - o2[1];
+                return o2[0] - o1[0];
             }
-            swap(peopleClone, i, pivotIdx);
-            swap(people, i, pivotIdx);
-            for (int j = i + 1; j < people.length; j++) {
-                int[] pivot = people[i];
-                if(pivot[0] >= people[j][0]){
-                    people[j][1]--;
-                }
-            }
+        });
+        LinkedList<int[]> l = new LinkedList<int[]>();
+        for (int[] peo : people){
+            l.add(peo[1], peo);
         }
-        return people;
-    }
-
-    private void swap(int[][] people, int i, int j){
-        int[] aux = people[i];
-        people[i] = people[j];
-        people[j] = aux;
-    }
-
-    private int[][] clone(int[][] matrix){
-        int[][] matrixClone = new int[matrix.length][matrix[0].length];
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                matrixClone[i][j] = matrix[i][j];
-            }
-        }
-        return matrixClone;
+        return l.toArray(new int[people.length][]);
     }
 
 }
