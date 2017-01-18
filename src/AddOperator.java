@@ -13,6 +13,7 @@ public class AddOperator {
         System.out.println(ao.addOperators("105", 5));
         System.out.println(ao.addOperators("3456237490", 9191));
         System.out.println(ao.addOperators("000", 0));
+        System.out.println(ao.addOperators("000", 2));
     }
 
     public List<String> addOperators(String num, int target) {
