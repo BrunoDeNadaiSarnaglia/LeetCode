@@ -27,27 +27,19 @@ public class FindLadder2 {
                 intersection = filter(endBound, dict);
             }
             if(intersection.isEmpty())  return new ArrayList<>();
-            remove(dict, intersection);
 
-            if(startBound.size() <= endBound.size()){
-                if(filter(endBound, intersection).isEmpty()){
-                    addGraph(startGraph, startBound, intersection);
-                    startBound = intersection;
-                } else {
-                    addGraph(startGraph, startBound, intersection);
-                    addGraph(endGraph, endBound, intersection);
-                    return buildPath(startGraph, endGraph, intersection, start, end);
-                }
+            if(startBound.size() <= endBound.size() && filter(endBound, intersection).isEmpty()){
+                addGraph(startGraph, startBound, intersection);
+                startBound = intersection;
+            } else if (startBound.size() > endBound.size() && filter(startBound, intersection).isEmpty()){
+                addGraph(endGraph, endBound, intersection);
+                endBound = intersection;
             } else {
-                if(filter(startBound, intersection).isEmpty()){
-                    addGraph(endGraph, endBound, intersection);
-                    endBound = intersection;
-                } else {
-                    addGraph(startGraph, startBound, intersection);
-                    addGraph(endGraph, endBound, intersection);
-                    return buildPath(startGraph, endGraph, intersection, start, end);
-                }
+                addGraph(startGraph, startBound, intersection);
+                addGraph(endGraph, endBound, intersection);
+                return buildPath(startGraph, endGraph, intersection, start, end);
             }
+            remove(dict, intersection);
         }
     }
 
