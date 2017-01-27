@@ -12,10 +12,11 @@ public class SmallestGoodBase {
 
     public String smallestGoodBase(String n) {
         long val = Long.parseLong(n);
-        long ans = 0;
-        for (int countOnes = 2; countOnes < 18; countOnes++) {
-            long j = 2;
-            long k = val - 1;
+        long ans = val - 1;
+        long j;
+        long k = val - 1;
+        for (int countOnes = 3; countOnes < 18; countOnes++) {
+            j = 2;
             while (k >= j){
                 long mid = j + (k - j) / 2;
                 long oneNumber = getOneBasedNum(mid, countOnes);
