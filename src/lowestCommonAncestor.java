@@ -1,5 +1,7 @@
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * Created by Sarnaglia on 2/2/17.
@@ -18,30 +20,27 @@ public class lowestCommonAncestor {
 
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if(p == q)  return p;
-        LinkedList<TreeNode> pPath = pathToRoot(root, p);
-        LinkedList<TreeNode> qPath = pathToRoot(root, q);
-        int i = 0;
-        while (i + 1 < pPath.size() && i + 1 < qPath.size() && pPath.get(i + 1) == qPath.get(i + 1)){
-            i++;
+        Stack<TreeNode> pPath = pathToRoot(root, p);
+        Stack<TreeNode> qPath = pathToRoot(root, q);
+        TreeNode ancestor = root;
+        while (!qPath.isEmpty() && !pPath.isEmpty() && pPath.peek() == qPath.peek()){
+            ancestor = pPath.pop();
+            qPath.pop();
         }
-        return pPath.get(i);
+        return ancestor;
     }
 
-    private LinkedList<TreeNode> pathToRoot(TreeNode root, TreeNode p){
+    private Stack<TreeNode> pathToRoot(TreeNode root, TreeNode p){
         if(root == null)   return null;
-        if(root == p){
-            LinkedList<TreeNode> path = new LinkedList<>();
-            path.add(root);
-            return path;
-        }
-        LinkedList<TreeNode> leftPath = pathToRoot(root.left, p);
+        if(root == p) return new Stack<>();
+        Stack<TreeNode> leftPath = pathToRoot(root.left, p);
         if(leftPath != null){
-            leftPath.addFirst(root);
+            leftPath.add(root.left);
             return leftPath;
         }
-        LinkedList<TreeNode> rightPath = pathToRoot(root.right, p);
+        Stack<TreeNode> rightPath = pathToRoot(root.right, p);
         if(rightPath != null){
-            rightPath.addFirst(root);
+            rightPath.add(root.right);
             return rightPath;
         } else {
             return null;
