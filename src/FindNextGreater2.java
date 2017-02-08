@@ -15,13 +15,13 @@ public class FindNextGreater2 {
         int max = 0;
         while (i < nums.length + max || !stk.isEmpty()) {
             max = (nums[i % nums.length] > nums[max] ? i : max);
-            if(i == nums.length + max){
+            if(!stk.isEmpty() && nums[stk.peek()] < nums[i % nums.length]){
+                nums2[stk.pop()] = nums[i % nums.length];
+            } else if (i == nums.length + max) {
                 nums2[stk.pop()] = -1;
-            } else if(stk.isEmpty() || nums[stk.peek()] > nums[i % nums.length]){
+            } else {
                 if(i < nums.length) stk.push(i % nums.length);
                 i++;
-            } else {
-                nums2[stk.pop()] = nums[i % nums.length];
             }
         }
         return nums2;
