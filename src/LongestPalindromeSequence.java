@@ -11,7 +11,18 @@ public class LongestPalindromeSequence {
     }
 
     public int longestPalindromeSubseq(String s) {
-        return longestPalindromeSubseq(s, 0, s.length() - 1, new HashMap<>());
+        int[][] cache = new int[s.length()][s.length()];
+        for (int i = s.length() - 1; i >= 0; i--) {
+            cache[i][i] = 1;
+            for (int j = i + 1; j < s.length(); j++) {
+                if(s.charAt(i) == s.charAt(j)){
+                    cache[i][j] = 2 + cache[i + 1][j - 1];
+                } else {
+                    cache[i][j] = Math.max(cache[i + 1][j], cache[i][j - 1]);
+                }
+            }
+        }
+        return cache[cache.length-1][cache[0].length - 1];
     }
 
 
