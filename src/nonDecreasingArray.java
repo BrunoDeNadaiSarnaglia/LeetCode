@@ -20,7 +20,7 @@ public class nonDecreasingArray {
     }
 
     private boolean dscCheckPossibility(int[] nums) {
-        int past = Integer.MAX_VALUE
+        int past = Integer.MAX_VALUE;
         int count = 0;
         for (int i = nums.length - 1; i >= 0; i--) {
             if(nums[i] > past) {
