@@ -1,13 +1,24 @@
 public class CountBinarySubstrings {
   public int countBinarySubstrings(String s) {
-    int[] accumulatorCount = new int[2 * s.length() + 1];
-    accumulatorCount[s.length()] = 1;
-    int acc = 0;
-    int countSubString = 0;
-    for (int i = 0; i < s.length(); i++) {
-      acc += s.charAt(i) == '1' ? 1 : -1;
-      countSubString += accumulatorCount[acc + s.length()]++;
+    int lastOccurrence = s.charAt(0);
+    int numOfZeros = lastOccurrence == '0' ? 1 : 0,
+      numOfOnes = lastOccurrence == '1' ? 1 : 0,
+      count = 0;
+    for (int i = 1; i < s.length(); i++) {
+      char ch = s.charAt(i);
+      if(ch == lastOccurrence) {
+        numOfZeros += lastOccurrence == '0' ? 1 : 0;
+        numOfOnes += lastOccurrence == '1' ? 1 : 0;
+        count += lastOccurrence == '0' && numOfZeros <= numOfOnes || lastOccurrence == '1' && numOfOnes <= numOfZeros ? 1 : 0;
+      } else {
+        if(lastOccurrence == '0') {
+          numOfOnes = 1;
+        } else {
+          numOfZeros = 1;
+        }
+        count += 1;
+      }
     }
-    return countSubString;
+    return count;
   }
 }
