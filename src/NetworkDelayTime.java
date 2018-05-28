@@ -10,9 +10,6 @@ public class NetworkDelayTime {
     Integer[] map = new Integer[N + 1];
     map[K] = 0;
     ts.add(K, 0);
-    while(!ts.isEmpty()) {
-      ts.
-    }
     for (int i = 0; i < N; i++) {
       for (int j = 0; j < times.length; j++) {
         int originNode = getOriginNode(times[j]);
