@@ -9,7 +9,7 @@ public class NonNegativeIntegersWithoutConsecutiveOnes {
     return set.size();
   }
 
-  public void findIntegers(int num, HashSet<Integer> set, int candidate) {
+  public void findIntegers(int num, Set<Integer> set, int candidate) {
     if(candidate > num) return;
     if(set.contains(candidate)) return;
     set.add(candidate);
