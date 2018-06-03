@@ -1,14 +1,44 @@
 public class MyCalendarThree {
 
-  TreeMap<Integer, Integer> beginning;
-  TreeMap<Integer, Integer> ending;
+  private List<Interval> intervals;
 
-  public MyCalendarThree() {
-    beginning = new TreeSet<Integer, Integer>();
-    ending = new TreeSet<Integer, Integer>();
+  public MyCalendar() {
+      intervals = new ArrayList<Interval> ();
   }
 
-  public int book(int start, int end) {
+  public boolean book(int start, int end) {
+      Interval newBookRequest = new Interval(start, end);
+      for(Interval interval : intervals) {
+          if(interval.hasOverlap(newBookRequest)) {
+              return false;
+          }
+      }
+      intervals.add(newBookRequest);
+      return true;
+  }
 
+  private class Interval {
+      private int start;
+      private int end;
+
+      public Interval(int start, int end) {
+          this.start = start;
+          this.end = end;
+      }
+
+      public int getStart() {
+          return this.start;
+      }
+
+      public int getEnd() {
+          return this.end;
+      }
+
+      public boolean hasOverlap(Interval interval) {
+          if(interval.end <= this.start || interval.start >= this.end) {
+              return false;
+          }
+          return true;
+      }
   }
 }
