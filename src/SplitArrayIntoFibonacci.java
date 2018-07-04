@@ -5,7 +5,7 @@ public class SplitArrayIntoFibonacci {
   public List<Integer> splitIntoFibonacci(String S) {
     if(S == null || S.length() == 0) return new ArrayList<>();
     if(S.charAt(0) == '0') return new ArrayList<>();
-    for (int i = 0; i < S.length(); i++) {
+    for (int i = 0; i < (S.charAt(0) == '0' ? 1 : S.length()); i++) {
       long a = Long.parseLong(S.substring(0, i + 1));
       if(a > Integer.MAX_VALUE) break;
       for (int j = i + 1; j < (i + 1 < S.length() && S.charAt(i + 1) == '0' ? Math.min(S.length() - 1, i + 2) : S.length() - 1); j++) {
@@ -22,7 +22,7 @@ public class SplitArrayIntoFibonacci {
     if(i == S.length()) return l;
     long c = a + b;
     if(c > Integer.MAX_VALUE) return null;
-    String cStr = a + "";
+    String cStr = c + "";
     if(!isPrefix(cStr, i, S)) return null;
     l.add((int)c);
     return makeFibonnaci(b, c, i + cStr.length(), S, l);
