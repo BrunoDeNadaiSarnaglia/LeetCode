@@ -1,0 +1,24 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class IntersectionOfTwoArray2 {
+  public int[] intersect(int[] nums1, int[] nums2) {
+    Map<Integer, Integer> map = new HashMap<>();
+    for(int num : nums) {
+      map.put(num, map.getOrDefault(num, 0) + 1);
+    }
+    List<Integer> l = new ArrayList<>();
+    for(int num : nums2) {
+      if(map.containsKey(num)) {
+        l.add(num);
+        map.put(num, map.get(num) - 1);
+        if(map.get(num) == 0) {
+          map.remove(num);
+        }
+      }
+    }
+    return l.stream().mapToInt(i->i).toArray();
+  }
+}
